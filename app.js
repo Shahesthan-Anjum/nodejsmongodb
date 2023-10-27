@@ -1,17 +1,19 @@
-const express=require('express');
-const app=express();
-const dbConnect=require('./db/dbConnect')
-const User=require('./db/userModel')
-dbConnect()
-const newUser=new User({
-    email:'anjum@example.com',
-    password:'anjum123'
-})
-newUser.save()
-.then(()=>{
-    console.log('user inserted successfully')
-})
-.catch((error)=>{
-    console.error('Error inserting user',error)
-})
-module.exports=app;
+const mongoose=require('mongoose');
+//require('dotenv').config()
+const dotenv = require("dotenv");
+require('dotenv').config()
+//dotenv.config();
+
+async function dbConnect(){
+   
+    mongoose.connect(`${process.env.DB_URL}`,{
+        useNewUrlParser:true,
+        useUnifiedTopology:true
+    }).then(()=>{
+        console.log('successfully connected to mongodb ')
+    }).catch((error)=>{
+    console.log("unale to connect to mongodb")
+    console.error(error)
+    })
+}
+module.exports=dbConnect;
